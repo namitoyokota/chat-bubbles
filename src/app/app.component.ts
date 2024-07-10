@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -6,4 +6,21 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss'],
     animations: [],
 })
-export class AppComponent {}
+export class AppComponent {
+    newMessage = '';
+
+    sentMessages: string[] = [];
+
+    @ViewChild('newMessageInput', { static: false }) newMessageInput: ElementRef;
+
+    constructor() {}
+
+    sendMessage(): void {
+        this.sentMessages.push(this.newMessage);
+        this.newMessage = '';
+    }
+
+    focusBackToInput(): void {
+        this.newMessageInput.nativeElement.focus();
+    }
+}

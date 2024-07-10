@@ -1,0 +1,11 @@
+<span *ngFor="let sentMessage of sentMessages">{{ sentMessage }}</span>
+
+<input
+    autofocus
+    #newMessageInput
+    type="text"
+    [(ngModel)]="newMessage"
+    (keydown.enter)="sendMessage()"
+    (keydown.shift.enter)="sendMessage()"
+    (blur)="focusBackToInput()"
+/>
