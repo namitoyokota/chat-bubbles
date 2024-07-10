@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { asyncScheduler, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -6,7 +7,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
     styleUrls: ['./app.component.scss'],
     animations: [],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     newMessage = '';
 
     sentMessages: string[] = [];
@@ -15,7 +16,17 @@ export class AppComponent {
 
     @ViewChild('newMessageInput', { static: false }) newMessageInput: ElementRef;
 
+    private removeMessage = new Subject<void>();
+
+    private removeMessage$ = this.removeMessage.asObservable();
+
     constructor() {}
+
+    ngOnInit(): void {
+        this.removeMessage$.subscribe(() => {
+            this.sentMessages.shift();
+        });
+    }
 
     sendMessage(): void {
         if (!this.newMessage) {
@@ -25,6 +36,8 @@ export class AppComponent {
         this.sentMessages.push(this.newMessage);
         this.newMessage = '';
         this.playSound();
+
+        asyncScheduler.schedule(() => this.removeMessage.next(), 3000);
     }
 
     focusBackToInput(): void {
