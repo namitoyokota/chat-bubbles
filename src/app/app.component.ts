@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
         this.newMessage = '';
         this.playSound();
 
-        asyncScheduler.schedule(() => this.removeMessage.next(), 3000);
+        asyncScheduler.schedule(() => this.removeMessage.next(), 5000);
     }
 
     focusBackToInput(): void {

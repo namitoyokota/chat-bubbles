@@ -2,12 +2,14 @@
 
 <span *ngFor="let sentMessage of sentMessages" [@fadeOutOnLeave]>{{ sentMessage }}</span>
 
-<input
+<textarea
     autofocus
+    autoResize
     #newMessageInput
     type="text"
+    autocomplete="off"
     [(ngModel)]="newMessage"
     (keydown.enter)="sendMessage()"
     (keydown.shift.enter)="sendMessage()"
     (blur)="focusBackToInput()"
-/>
+></textarea>
