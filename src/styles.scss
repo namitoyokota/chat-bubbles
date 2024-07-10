@@ -8,4 +8,11 @@ html {
     background-color: green;
     color: black;
     font-size: 200%;
+    caret-color: #278EFF;
+}
+
+body {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
 }
