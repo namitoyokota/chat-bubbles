@@ -1,6 +1,8 @@
 <audio #sentSound src="/assets/message-sent.wav"></audio>
 
-<span *ngFor="let sentMessage of sentMessages" [@fadeOutOnLeave]>{{ sentMessage }}</span>
+<span *ngFor="let sentMessage of sentMessages; let isLast = last" [@fadeOutOnLeave] class="message" [class]="isLast ? 'last' : ''">
+    {{ sentMessage }}
+</span>
 
 <textarea
     autofocus
@@ -8,6 +10,7 @@
     #newMessageInput
     type="text"
     autocomplete="off"
+    class="input"
     [(ngModel)]="newMessage"
     (keydown.enter)="sendMessage()"
     (keydown.shift.enter)="sendMessage()"
