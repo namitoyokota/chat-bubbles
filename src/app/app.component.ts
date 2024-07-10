@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { fadeOutOnLeaveAnimation } from 'angular-animations';
 import { asyncScheduler, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    animations: [],
+    animations: [fadeOutOnLeaveAnimation()],
 })
 export class AppComponent implements OnInit {
     newMessage = '';

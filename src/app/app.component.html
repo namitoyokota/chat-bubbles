@@ -1,6 +1,6 @@
 <audio #sentSound src="/assets/message-sent.wav"></audio>
 
-<span *ngFor="let sentMessage of sentMessages">{{ sentMessage }}</span>
+<span *ngFor="let sentMessage of sentMessages" [@fadeOutOnLeave]>{{ sentMessage }}</span>
 
 <input
     autofocus
