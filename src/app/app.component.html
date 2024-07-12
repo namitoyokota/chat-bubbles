@@ -1,9 +1,7 @@
+<!-- Send Audio Player -->
 <audio #sentSound src="/assets/message-sent.wav"></audio>
 
-<span *ngFor="let sentMessage of sentMessages; let isLast = last" [@fadeOutOnLeave] class="message" [class]="isLast ? 'last' : ''">
-    {{ sentMessage }}
-</span>
-
+<!-- Hidden Textarea -->
 <textarea
     autofocus
     autoResize
@@ -11,8 +9,15 @@
     type="text"
     autocomplete="off"
     class="input"
-    [(ngModel)]="newMessage"
+    [(ngModel)]="messages[0].text"
     (keydown.enter)="sendMessage()"
     (keydown.shift.enter)="sendMessage()"
     (blur)="focusBackToInput()"
 ></textarea>
+
+<!-- Messages -->
+<div @list class="list">
+    <span @items *ngFor="let message of messages.slice().reverse()" [class.message]="message.text">
+        {{ message.text }}
+    </span>
+</div>

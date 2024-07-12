@@ -2,27 +2,32 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 5vh;
+    padding: 10vh;
 }
 
 textarea {
-    all: unset;
+    position: absolute;
+    top: -200px;
+    left: -200px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
 }
 
 .message {
-    border-radius: 20px;
+    border-radius: 25px;
     padding: 8px 15px;
-    margin-top: 5px;
-    margin-bottom: 5px;
     display: inline-block;
     width: min-content;
     text-wrap: nowrap;
-    margin-right: 25%;
     background-color: #eee;
     position: relative;
 }
 
-.message.last:before {
+.message:before {
     content: "";
     position: absolute;
     z-index: 0;
@@ -34,7 +39,7 @@ textarea {
     border-bottom-right-radius: 15px;
 }
 
-.message.last:after {
+.message:after {
     content: "";
     position: absolute;
     z-index: 1;

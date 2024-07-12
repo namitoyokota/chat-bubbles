@@ -1,17 +1,34 @@
+import { animate, animateChild, query, stagger, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { fadeOutOnLeaveAnimation } from 'angular-animations';
 import { asyncScheduler, Subject } from 'rxjs';
+
+class Message {
+    constructor(public id = '', public text = '') {
+        this.id = id;
+        this.text = text;
+    }
+}
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    animations: [fadeOutOnLeaveAnimation()],
+    animations: [
+        trigger('list', [transition(':enter', [query('@items', stagger(100, animateChild()))])]),
+        trigger('items', [
+            transition(':enter', [
+                style({ transform: 'scale(0.5)', opacity: 0 }),
+                animate('1s cubic-bezier(.8,-0.6,0.2,1.5)', style({ transform: 'scale(1)', opacity: 1 })),
+            ]),
+            transition(':leave', [
+                style({ transform: 'scale(1)', opacity: 1, height: '*' }),
+                animate('1s cubic-bezier(.8,-0.6,0.2,1.5)', style({ transform: 'scale(0.8)', opacity: 0, height: '0px', margin: '0px' })),
+            ]),
+        ]),
+    ],
 })
 export class AppComponent implements OnInit {
-    newMessage = '';
-
-    sentMessages: string[] = [];
+    messages: Message[] = [new Message(crypto.randomUUID(), '')];
 
     @ViewChild('sentSound') sentSound: ElementRef;
 
@@ -25,19 +42,17 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.removeMessage$.subscribe(() => {
-            this.sentMessages.shift();
+            this.messages.pop();
         });
     }
 
     sendMessage(): void {
-        if (!this.newMessage) {
+        if (!this.messages[0]) {
             return;
         }
 
-        this.sentMessages.push(this.newMessage);
-        this.newMessage = '';
+        this.messages = [new Message(crypto.randomUUID(), ''), ...this.messages];
         this.playSound();
-
         asyncScheduler.schedule(() => this.removeMessage.next(), 8000);
     }
 
