@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this.getConfigurations();
+        this.setStyles();
+
         this.removeMessage$.subscribe(() => {
             this.messages.pop();
         });
@@ -34,7 +36,7 @@ export class AppComponent implements OnInit {
 
     getConfigurations(): void {
         Object.keys(this.configuration).forEach((key) => {
-            this.configuration[key] = this.getParamValueQueryString(key) ?? this.configuration[key];
+            this.configuration[key] = this.getParamValueQueryString(key) ? this.getParamValueQueryString(key) : this.configuration[key];
         });
     }
 
@@ -56,6 +58,17 @@ export class AppComponent implements OnInit {
 
     focusBackToInput(): void {
         this.newMessageInput.nativeElement.focus();
+    }
+
+    private setStyles(): void {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(`
+            html { background-color: ${this.configuration.backgroundColor}; }
+            .message { color: ${this.configuration.textColor}; background-color: ${this.configuration.messageColor}; }
+            .message:before { background-color: ${this.configuration.messageColor}; }
+            .message:after { background-color: ${this.configuration.backgroundColor}; }
+        `);
+        document.adoptedStyleSheets = [sheet];
     }
 
     private getParamValueQueryString(paramName): string {
