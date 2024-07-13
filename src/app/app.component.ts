@@ -17,8 +17,6 @@ export class AppComponent implements OnInit {
 
     configuration = new Configuration();
 
-    @ViewChild('sentSound') sentSound: ElementRef;
-
     @ViewChild('newMessageInput', { static: false }) newMessageInput: ElementRef;
 
     private removeMessage = new Subject<void>();
@@ -46,7 +44,6 @@ export class AppComponent implements OnInit {
         }
 
         this.messages.unshift(new Message(''));
-        this.playSound();
         asyncScheduler.schedule(() => this.removeMessage.next(), this.configuration.disappearAfter * 1000);
     }
 
@@ -59,14 +56,6 @@ export class AppComponent implements OnInit {
 
     focusBackToInput(): void {
         this.newMessageInput.nativeElement.focus();
-    }
-
-    private playSound(): void {
-        if (this.sentSound.nativeElement.paused) {
-            this.sentSound.nativeElement.play();
-        } else {
-            this.sentSound.nativeElement.currentTime = this.configuration.disappearAfter;
-        }
     }
 
     private getParamValueQueryString(paramName): string {
