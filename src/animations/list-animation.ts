@@ -7,8 +7,8 @@ export const listAnimations = [
     trigger('list', [transition(':enter', [query('@items', stagger(100, animateChild()))])]),
     trigger('items', [
         transition(':enter', [
-            style({ transform: 'scale(1)', opacity: 0, height: '0px' }),
-            animate('1s ease-in-out', style({ transform: 'scale(1)', opacity: 1, height: '*' })),
+            style({ transform: 'scale(1)', opacity: 0, height: '0px', fontSize: '0' }),
+            animate('1s ease-in-out', style({ transform: 'scale(1)', opacity: 1, height: '*', fontSize: '1rem' })),
         ]),
         transition(':leave', [
             style({ transform: 'scale(1)', opacity: 1, height: '*' }),
