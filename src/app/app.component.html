@@ -16,8 +16,8 @@
 ></textarea>
 
 <!-- Messages -->
-<div @list class="list">
-    <span @items *ngFor="let message of messages.slice().reverse()" [class.message]="message.text">
+<div @list *ngIf="sortedMessages().length" class="list">
+    <span @items *ngFor="let message of sortedMessages()" [class.message]="message.text">
         {{ message.text }}
     </span>
 </div>

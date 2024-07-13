@@ -1,30 +1,17 @@
-import { animate, animateChild, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { asyncScheduler, Subject } from 'rxjs';
-
-class Message {
-    constructor(public id = '', public text = '') {
-        this.id = id;
-        this.text = text;
-    }
-}
+import { Message } from 'src/abstractions/message';
+import { listAnimations } from 'src/animations/list-animation';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    animations: [
-        trigger('list', [transition(':enter', [query('@items', stagger(100, animateChild()))])]),
-        trigger('items', [
-            transition(':leave', [
-                style({ transform: 'scale(1)', opacity: 1, height: '*' }),
-                animate('1s cubic-bezier(.8,-0.6,0.2,1.5)', style({ transform: 'scale(0.8)', opacity: 0, height: '0px' })),
-            ]),
-        ]),
-    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [listAnimations],
 })
 export class AppComponent implements OnInit {
-    messages: Message[] = [new Message(crypto.randomUUID(), '')];
+    messages: Message[] = [new Message('')];
 
     @ViewChild('sentSound') sentSound: ElementRef;
 
@@ -47,9 +34,16 @@ export class AppComponent implements OnInit {
             return;
         }
 
-        this.messages.unshift(new Message(crypto.randomUUID(), ''));
+        this.messages.unshift(new Message(''));
         this.playSound();
         asyncScheduler.schedule(() => this.removeMessage.next(), 8000);
+    }
+
+    sortedMessages(): Message[] {
+        return this.messages
+            .filter((message) => !!message.text)
+            .slice()
+            .reverse();
     }
 
     focusBackToInput(): void {
