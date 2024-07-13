@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
 
         this.messages.unshift(new Message(''));
         this.playSound();
-        asyncScheduler.schedule(() => this.removeMessage.next(), 8000);
+        asyncScheduler.schedule(() => this.removeMessage.next(), this.configuration.disappearAfter * 1000);
     }
 
     sortedMessages(): Message[] {
