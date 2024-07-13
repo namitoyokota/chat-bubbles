@@ -1,5 +1,7 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { asyncScheduler, Subject } from 'rxjs';
+import { Configuration } from 'src/abstractions/configuration';
 import { Message } from 'src/abstractions/message';
 import { listAnimations } from 'src/animations/list-animation';
 
@@ -13,6 +15,8 @@ import { listAnimations } from 'src/animations/list-animation';
 export class AppComponent implements OnInit {
     messages: Message[] = [new Message('')];
 
+    configuration = new Configuration();
+
     @ViewChild('sentSound') sentSound: ElementRef;
 
     @ViewChild('newMessageInput', { static: false }) newMessageInput: ElementRef;
@@ -24,8 +28,15 @@ export class AppComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
+        this.getConfigurations();
         this.removeMessage$.subscribe(() => {
             this.messages.pop();
+        });
+    }
+
+    getConfigurations(): void {
+        Object.keys(this.configuration).forEach((key) => {
+            this.configuration[key] = this.getParamValueQueryString(key) ?? this.configuration[key];
         });
     }
 
@@ -41,7 +52,7 @@ export class AppComponent implements OnInit {
 
     sortedMessages(): Message[] {
         return this.messages
-            .filter((message) => !!message.text)
+            .filter((message) => !!message.text.trim())
             .slice()
             .reverse();
     }
@@ -54,7 +65,18 @@ export class AppComponent implements OnInit {
         if (this.sentSound.nativeElement.paused) {
             this.sentSound.nativeElement.play();
         } else {
-            this.sentSound.nativeElement.currentTime = 0;
+            this.sentSound.nativeElement.currentTime = this.configuration.disappearAfter;
         }
+    }
+
+    private getParamValueQueryString(paramName): string {
+        const url = window.location.href;
+        let paramValue = '';
+        if (url.includes('?')) {
+            const httpParams = new HttpParams({ fromString: url.split('?')[1] });
+            paramValue = httpParams.get(paramName);
+        }
+
+        return paramValue;
     }
 }
