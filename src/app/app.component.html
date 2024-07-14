@@ -1,16 +1,15 @@
-<!-- Hidden Textarea -->
-<textarea
+<!-- Hidden input -->
+<input
     autofocus
     autoResize
     #newMessageInput
+    class="input"
     type="text"
     autocomplete="off"
-    class="input"
     [(ngModel)]="messages[0].text"
     (keydown.enter)="sendMessage()"
-    (keydown.shift.enter)="sendMessage()"
     (blur)="focusBackToInput()"
-></textarea>
+/>
 
 <!-- Messages -->
 <div @list *ngIf="sortedMessages().length" class="list">
