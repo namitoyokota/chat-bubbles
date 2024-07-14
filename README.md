@@ -1,11 +1,13 @@
 ![Website Preview](https://api.namitoyokota.com/assets/og-images/chat-bubbles.png)
 
-# chat-bubbles.namitoyokota.com
+# chat.namitoyokota.com
 
 -   **Framework**: [Angular](https://angular.io/)
 -   **Deployment**: [Vercel](https://vercel.com)
 
-## Configurations
+## Usage
+
+### Configurations
 
 The following settings can be overridden using URL parameters:
 
@@ -16,12 +18,14 @@ The following settings can be overridden using URL parameters:
 | `backgroundColor` | `string` | `#01A000` |
 | `disappearAfter`  | `number` | `8`       |
 
-## Codebase
+## Contributing
+
+### Codebase
 
 -   `app/*` - Page content
 -   `assets/*` - Static assets used on the site
 
-## Running Locally
+### Running Locally
 
 ```shell
 $ git clone https://github.com/namitoyokota/chat-bubbles.git
