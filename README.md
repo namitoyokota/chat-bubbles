@@ -5,6 +5,17 @@
 -   **Framework**: [Angular](https://angular.io/)
 -   **Deployment**: [Vercel](https://vercel.com)
 
+## Configurations
+
+The following settings can be overridden using URL parameters:
+
+| Property          | Type     | Default   |
+| ----------------- | -------- | --------- |
+| `textColor`       | `string` | `#000`    |
+| `messageColor`    | `string` | `#eee`    |
+| `backgroundColor` | `string` | `#01A000` |
+| `disappearAfter`  | `number` | `8`       |
+
 ## Codebase
 
 -   `app/*` - Page content
